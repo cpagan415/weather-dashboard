@@ -52,8 +52,8 @@ var displayWeather = function (city, weatherInfo){
     //i need to fix destination date
     //currently learning how to use moment time zome 
     var date = moment().format("MMMM Do YYYY");
-    var currTemp = city['main']['temp'] * .1
-    cityWeather.innerHTML = city['name'] + "  " + date + "<br> Temperature C: " + currTemp + '<br> Humidity: ' + city['main']['humidity']
+    var currTemp = (city['main']['temp'] * .1) * (9/5) + 32;
+    cityWeather.innerHTML = city['name'] + "  " + date + "<br> Temperature F: " + currTemp + '<br> Humidity: ' + city['main']['humidity']
     + '%<br> Wind Speed: ' + city['wind']['speed'] + 'mph<br> UV Index: '; 
     
 
