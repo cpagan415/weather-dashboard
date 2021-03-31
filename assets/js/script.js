@@ -1,4 +1,22 @@
 
+//on load when page loads
+
+
+window.onload = (event) => {
+var userHistory = localStorage.getItem('userInput');
+var userHistoryLoad = document.getElementById('userHistoryLoad');
+
+console.log(userHistory);
+for(var i = 0; i < userHistory.length; i++){
+var historyEl = document.createElement('span');
+historyEl.setAttribute('class', 'history');
+ historyEl.append(userHistory[i]);
+ userHistoryLoad.appendChild(historyEl);
+
+}
+
+
+};
 
 
 //stored user search input in a function to get the fetch request 
@@ -17,7 +35,7 @@ var userCity = document.querySelector('#userCity');
 var btnClick = document.querySelector('#btnClick');
 var userSearchTerm = document.querySelector('#userSearchTerm');
 var cityWeather = document.querySelector('#cityWeather-container');
-var cityArray = [];
+var cityArray = [ ];
 
 //listen to when the user clicks the search button
 var formSubmitHandler = function(event) 
@@ -25,6 +43,7 @@ var formSubmitHandler = function(event)
     event.preventDefault();
 
 var userInput = userCity.value.trim();
+userCity.textContent = ' ';
 //validating the user input just in case user does not put anything 
 if(userInput) {
     getWeather(userInput);
@@ -33,6 +52,7 @@ if(userInput) {
     cityArray.push(userInput);
     console.log(cityArray);
     localStorage.setItem('userInput', JSON.stringify(cityArray));
+
 
 }
 
@@ -53,3 +73,4 @@ var displayWeather = function (city){
     cityWeather.innerHTML = city['name'] + "  " + date + "<br> Temperature F: " + currTemp + '<br> Humidity: ' + city['main']['humidity']
     + '%<br> Wind Speed: ' + city['wind']['speed'] + 'mph<br> UV Index: '; 
 }
+
