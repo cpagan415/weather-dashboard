@@ -61,6 +61,3 @@ var displayWeather = function (city, weatherInfo){
     
 }
 
-var tempConv = function(userCity) {
-
-}
