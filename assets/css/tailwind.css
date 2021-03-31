@@ -76,10 +76,27 @@ header
   color: white;
 }
 
+.searchSec
+{
+  width: 30%;
+  background-color: #D1D5DB;
+}
+
+.weatherSec
+{
+  width: 70%;
+  background-color: #60A5FA;
+}
 .searchBar
 {
-  display: flex;
+  width: 100%;
 }
+
+h4 {
+  background-color: black;
+  color: white;
+}
+
 /*
 Grouping content
 ================
@@ -215,12 +232,12 @@ select { /* 1 */
 Correct the inability to style clickable types in iOS and Safari.
 */
 
-button,
+/*button,
 [type='button'],
 [type='reset'],
 [type='submit'] {
   -webkit-appearance: button;
-}
+}*/
 
 /**
 Remove the inner border and padding in Firefox.
