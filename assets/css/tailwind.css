@@ -92,6 +92,11 @@ header
   width: 100%;
 }
 
+.history
+{
+  background-color: pink;
+}
+
 h4 {
   background-color: black;
   color: white;
