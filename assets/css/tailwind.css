@@ -76,10 +76,21 @@ header
   color: white;
 }
 
+.searchSec
+{
+  width: 30%;
+  background-color: #D1D5DB;
+}
 .searchBar
 {
   display: flex;
 }
+
+h4 {
+  background-color: black;
+  color: white;
+}
+
 /*
 Grouping content
 ================
