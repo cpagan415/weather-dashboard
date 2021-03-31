@@ -9,7 +9,6 @@ var getWeather = function(userCity) {
     fetch(apiUrl).then(function(response){
         response.json().then(function(data){
             displayWeather(data, userCity);
-            console.log(data);
         })
     })
 }
@@ -19,6 +18,8 @@ var userCity = document.querySelector('#userCity');
 var btnClick = document.querySelector('#btnClick');
 var userSearchTerm = document.querySelector('#userSearchTerm');
 var cityWeather = document.querySelector('#cityWeather-container');
+
+
 
 
 
@@ -33,7 +34,6 @@ var userInput = userCity.value.trim();
 //validating the user input just in case user does not put anything 
 if(userInput) {
     getWeather(userInput);
-    console.log(getWeather);
 }
 else{
     alert('Please enter a city');
@@ -49,4 +49,18 @@ var displayWeather = function (city, weatherInfo){
    
     cityWeather.textContent= ' ';
     userSearchTerm.textContent = userCity.value;
+    //i need to fix destination date
+    //currently learning how to use moment time zome 
+    var date = moment().format("MMMM Do YYYY");
+    
+
+    cityWeather.innerHTML = city['name'] + "  " + date + "<br> Temperature C:" + city['main']['temp'] + '<br> Humidity: ' + city['main']['humidity']
+    + '%<br> Wind Speed: ' + city['wind']['speed'] + 'mph<br> UV Index: '; 
+    
+
+    
+}
+
+var tempConv = function(userCity) {
+
 }

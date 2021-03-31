@@ -81,6 +81,12 @@ header
   width: 30%;
   background-color: #D1D5DB;
 }
+
+.weatherSec
+{
+  width: 70%;
+  background-color: #60A5FA;
+}
 .searchBar
 {
   display: flex;
