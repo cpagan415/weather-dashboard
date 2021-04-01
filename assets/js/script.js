@@ -45,7 +45,7 @@ btnClick.addEventListener('click', formSubmitHandler);
 var displayWeather = function (city){
    
     cityWeather.textContent= ' ';
-    userSearchTerm.textContent = userCity.value;
+    
     //i need to fix destination date
     //currently learning how to use moment time zome 
     var date = moment().format("MMMM Do YYYY");
