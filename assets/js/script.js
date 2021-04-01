@@ -35,7 +35,11 @@ var userCity = document.querySelector('#userCity');
 var btnClick = document.querySelector('#btnClick');
 var userSearchTerm = document.querySelector('#userSearchTerm');
 var cityWeather = document.querySelector('#cityWeather-container');
-var cityArray = [ ];
+//making an object to store an array in, i am hoping this would be easier to gather data from local storage 
+//youtube video reference: 
+var userCities  = {
+    city: []
+};
 
 //listen to when the user clicks the search button
 var formSubmitHandler = function(event) 
