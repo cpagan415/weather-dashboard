@@ -1,0 +1,38 @@
+header
+{
+  background-color: #60A5FA;
+  text-align: center;
+  font-size: 3em;
+  color: white;
+}
+
+.searchSec
+{
+  width: 30%;
+  background-color: #D1D5DB;
+}
+
+.weatherSec
+{
+  width: 70%;
+  background-color: #60A5FA;
+}
+.searchBar
+{
+  width: 100%;
+}
+
+.history
+{
+  background-color: pink;
+}
+
+h4 {
+  background-color: black;
+  color: white;
+}
+
+.hisDisplay
+{
+  background-color:#60A5FA;
+}
