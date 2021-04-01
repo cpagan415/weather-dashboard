@@ -3,7 +3,7 @@
 //global variables used 
 var userForm = document.getElementById('userForm');
 var userCity = document.getElementById('userCity');
-var btnClick = document.getElementById('#tnClick');
+var btnClick = document.getElementById('btnClick');
 var userSearchTerm = document.getElementById('userSearchTerm');
 var cityWeather = document.getElementById('cityWeather-container');
 //creating a object to store an empty array in 
