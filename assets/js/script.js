@@ -3,16 +3,18 @@
 //global variables used 
 var userForm = document.getElementById('userForm');
 var userCity = document.getElementById('userCity');
-var btnClick = document.getElementById('#tnClick');
+var btnClick = document.getElementById('btnClick');
 var userSearchTerm = document.getElementById('userSearchTerm');
 var cityWeather = document.getElementById('cityWeather-container');
+var userHistoryLoad = document.getElementById('userHistoryLoad');
 //creating a object to store an empty array in 
 //this is so I could be able to access the user history and pring a result to the page when loaded 
-var cityArray = [ ];
-//on load when page loads
+//creating an object for local storage to see if it is easier to store user history 
+//yt video reference here: https://www.youtube.com/watch?v=AUOzvFzdIk4
+let myObj = {cityArray: []};
 
 
-//window.onload = (event) => {};
+
 
 
 //created a function with the user input as a parameter when running fetch on the api
@@ -51,5 +53,27 @@ var displayWeather = function (city){
     var currTemp = (city['main']['temp'] * .1) * (9/5) + 32;
     cityWeather.innerHTML = city['name'] + "  " + date + "<br> Temperature F: " + currTemp + '<br> Humidity: ' + city['main']['humidity']
     + '%<br> Wind Speed: ' + city['wind']['speed'] + 'mph<br> UV Index: '; 
+
+    //entering data in local storage 
+    myObj.cityArray.push(userCity.value);
+  
+    let myObj_str = JSON.stringify(myObj);
+    localStorage.setItem('userCities', myObj_str);
+   
 }
 
+//user search history when loaded
+window.onload = (event) => {
+    let citHis = JSON.parse(localStorage.getItem('userCities'));
+    console.log(citHis);
+    for(var i = 0; i < citHis.cityArray.length; i++){
+    var newEl= document.createElement('span');
+    var breakEl = document.createElement('br');
+    newEl.setAttribute('class', 'hisDisplay border-2');
+    newEl.innerHTML =citHis.cityArray[i];
+    userHistoryLoad.appendChild(newEl);
+    newEl.append(breakEl);
+    
+    }
+    
+};
