@@ -3,17 +3,33 @@
 //global variables used 
 var userForm = document.getElementById('userForm');
 var userCity = document.getElementById('userCity');
-var btnClick = document.getElementById('btnClick');
+var submitBtn = document.getElementById('submitbtn');
 var userSearchTerm = document.getElementById('userSearchTerm');
 var cityWeather = document.getElementById('cityWeather-container');
 var userHistoryLoad = document.getElementById('userHistoryLoad');
+var fiveDay = document.getElementById('fiveDay');
 //creating a object to store an empty array in 
-//this is so I could be able to access the user history and pring a result to the page when loaded 
-//creating an object for local storage to see if it is easier to store user history 
+//this is so I could be able to access the user history 
+ 
 //yt video reference here: https://www.youtube.com/watch?v=AUOzvFzdIk4
 let myObj = {cityArray: []};
 
 
+//user search history when loaded
+window.onload = (event) => {
+    let citHis = JSON.parse(localStorage.getItem('userCities'));
+    console.log(citHis);
+    for(var i = 0; i < citHis.cityArray.length; i++){
+    var newEl= document.createElement('span');
+    var breakEl = document.createElement('br');
+    newEl.setAttribute('class', 'hisDisplay border-2');
+    newEl.innerHTML =citHis.cityArray[i];
+    userHistoryLoad.appendChild(newEl);
+    newEl.append(breakEl);
+    
+    }
+    
+};
 
 
 
@@ -23,7 +39,9 @@ var getWeather = function(userCity) {
 
     fetch(apiUrl).then(function(response){
         response.json().then(function(data){
+            console.log(data);
             displayWeather(data, userCity);
+            displayFiveDay(data,userCity);
         })
     })
 }
@@ -32,15 +50,15 @@ var getWeather = function(userCity) {
 var formSubmitHandler = function(event) 
 {
     event.preventDefault();
-
-var userInput = userCity.value.trim();
+var userInput = event.target.elements['userCity'].value;
+//var userInput = userCity.value.trim();
 userCity.textContent = ' ';
 //validating the user input just in case user does not put anything 
 if(userInput) {getWeather(userInput);}
    //maybe a warning statement whould go here like in the modules 
 }
 
-btnClick.addEventListener('click', formSubmitHandler);
+submitBtn.addEventListener('submit', formSubmitHandler);
 
 var displayWeather = function (city){
    
@@ -62,18 +80,10 @@ var displayWeather = function (city){
    
 }
 
-//user search history when loaded
-window.onload = (event) => {
-    let citHis = JSON.parse(localStorage.getItem('userCities'));
-    console.log(citHis);
-    for(var i = 0; i < citHis.cityArray.length; i++){
-    var newEl= document.createElement('span');
-    var breakEl = document.createElement('br');
-    newEl.setAttribute('class', 'hisDisplay border-2');
-    newEl.innerHTML =citHis.cityArray[i];
-    userHistoryLoad.appendChild(newEl);
-    newEl.append(breakEl);
-    
-    }
-    
-};
+//display five day forecast 
+
+var displayFiveDay = function(city)
+{
+    console.log('working');
+}
+

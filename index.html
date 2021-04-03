@@ -8,26 +8,31 @@
     <title>Weather Dashboard</title>
 </head>
 <body>
-    <header class="container text-center">
+    <header class="text-center">
         <h2>Weather Dashboard</h2>
 
     </header>
 
-    <main class="container">
+    <main class="">
+
     <div class="searchSec">
+
     <h4 class="">Search for a City:</h4>
-    <div id='userForm'>
-     <div><input type="text" placeholder="Enter City..." id='userCity' class="searchBar"></input></div>
-    </div>
-    <button id='btnClick' type='button' class="searchBar" style="width: 300px">Search</button>
+
+    <form id='userForm' class='container'>
+    <div class="row"><input type="text" placeholder="Enter City..." id='userCity' class="searchBar"></input></div>
+    <div class="row"><button id='submitBtn' type='submit' class="searchBar" style="width: 300px">Search</button></div>
+    </form>
+
     <div id="userHistoryLoad"></div>
     <br>
     <h2><span id='userSearchTerm'></span></h2>
     </div>
     <div id="cityWeather-container" class='weatherSec'>
-
     </div>
-</main>
+    <div id="fiveDay"></div>
+
+    </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="assets/js/script.js"></script>
 </body>
