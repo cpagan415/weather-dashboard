@@ -79,10 +79,10 @@ var storeData = function()
 //displaying weather api
 function displayWeather(weather){
     var weatherDis = document.getElementById('weatherDis');
-    var tempF = 'Temp: ' + (Math.round(weather.main.temp * .1)*(9/5)+ 32) + '˚F<br>';
+    var tempF = 'Temp: ' + (Math.round(weather.main.temp - 273)*(9/5)+ 32) + '˚F<br>';
     var locDate = locCity.value+ ' ' + moment().format('MMMM Do YYYY') +'<br>';
-    var lat = weather.coord.lon;
-    var lon = weather.coord.lat;
+    var lon = weather.coord.lon;
+    var lat = weather.coord.lat;
     var wind = 'Wind Spd:' + weather.wind.speed + 'mph<br>';
     var humidity = 'Humidity: ' + weather.main.humidity + '%<br>';
     weatherDis.innerHTML = locCity.value + ' ' + locDate + tempF + wind + humidity;
@@ -102,7 +102,7 @@ var fiveDay = function(info)
        var convUnix = info.daily[i].dt;
        var dates = moment.unix(convUnix).format('MMMM Do') + '<br>';
        var temp = info.daily[i].temp.day;
-       var tempF = 'Temp: ' + Math.round((temp *.1) * (9/5) + 32) + '˚F<br>';
+       var tempF = 'Temp: ' + Math.round((temp -273) * (9/5) + 32) + '˚F<br>';
        var wind = 'WindSpd: ' + info.daily[i].wind_speed + ' mph<br>';
        var humidity= 'Humidity: '+ info.daily[i].humidity +'%<br>';
        create.setAttribute('class', 'fiveDay cards m-2');
