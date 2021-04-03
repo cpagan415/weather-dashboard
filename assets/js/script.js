@@ -1,89 +1,120 @@
 
 
-//global variables used 
-var userForm = document.getElementById('userForm');
-var userCity = document.getElementById('userCity');
-var submitBtn = document.getElementById('submitbtn');
-var userSearchTerm = document.getElementById('userSearchTerm');
-var cityWeather = document.getElementById('cityWeather-container');
-var userHistoryLoad = document.getElementById('userHistoryLoad');
-var fiveDay = document.getElementById('fiveDay');
-//creating a object to store an empty array in 
-//this is so I could be able to access the user history 
- 
-//yt video reference here: https://www.youtube.com/watch?v=AUOzvFzdIk4
-let myObj = {cityArray: []};
-
-
-//user search history when loaded
-window.onload = (event) => {
-    let citHis = JSON.parse(localStorage.getItem('userCities'));
-    console.log(citHis);
-    for(var i = 0; i < citHis.cityArray.length; i++){
-    var newEl= document.createElement('span');
-    var breakEl = document.createElement('br');
-    newEl.setAttribute('class', 'hisDisplay border-2');
-    newEl.innerHTML =citHis.cityArray[i];
-    userHistoryLoad.appendChild(newEl);
-    newEl.append(breakEl);
-    
-    }
-    
-};
-
-
-
 //created a function with the user input as a parameter when running fetch on the api
 var getWeather = function(userCity) {
-    var apiUrl = ("http://api.openweathermap.org/data/2.5/weather?q=" + userCity + "&APPID=b7f5bbcf25f5227f04a67e383665ed91");
+    var apiUrl = ('https://api.openweathermap.org/data/2.5/weather?q=' + userCity + '&appid=b7f5bbcf25f5227f04a67e383665ed91');
+    fetch(apiUrl).then(function(response){
+        response.json().then(function(data){
+            displayWeather(data);
+            console.log(data);})})}
 
+var fiveDayForecast = function(lat,lon)
+{
+    var apiUrl = ('https://api.openweathermap.org/data/2.5/onecall?lat='+lat+'&lon='+lon+'&appid=b7f5bbcf25f5227f04a67e383665ed91');
     fetch(apiUrl).then(function(response){
         response.json().then(function(data){
             console.log(data);
-            displayWeather(data, userCity);
-            displayFiveDay(data,userCity);
+            fiveDay(data);
         })
     })
+
 }
 
-//listen to when the user clicks the search button
-var formSubmitHandler = function(event) 
-{
-    event.preventDefault();
-var userInput = event.target.elements['userCity'].value;
-//var userInput = userCity.value.trim();
-userCity.textContent = ' ';
-//validating the user input just in case user does not put anything 
-if(userInput) {getWeather(userInput);}
-   //maybe a warning statement whould go here like in the modules 
+//creating empty array to store user search history
+var searchHis = document.getElementById('searchHis');
+let cityArray= [];
+
+window.onload = () => {
+    let cities = JSON.parse(localStorage.getItem('cities'));
+    for(i=0; i<cities.length;i++){
+        var newEl = document.createElement('button');
+        newEl.setAttribute('style', 'width: 100%')
+        newEl.setAttribute('id', 'btn');
+        newEl.setAttribute('onclick', 'displayAgain(this)');
+        newEl.textContent = cities[i];
+        searchHis.appendChild(newEl);
+    }
+
 }
 
-submitBtn.addEventListener('submit', formSubmitHandler);
-
-var displayWeather = function (city){
+function displayAgain(objCity){
+    getWeather(objCity.textContent);
+}
    
-    cityWeather.textContent= ' ';
+
+
+var formSubmitHandler = function()
+{
+    let locCity = document.getElementById('locCity').value.trim();
+    locCity = locCity.charAt(0).toUpperCase() + locCity.substring(1, locCity.length);
+    cityArray.push(locCity);
+    histSearchBtn(locCity);
+    getWeather(locCity);
+    clearForm(locCity);
+}
+var clearForm = function()
+{
+    var form = document.getElementById('userForm');
+    form.reset();
+}
+var histSearchBtn = function()
+{
     
-    //i need to fix destination date
-    //currently learning how to use moment time zome 
-    var date = moment().format("MMMM Do YYYY");
-    //C to F
-    var currTemp = (city['main']['temp'] * .1) * (9/5) + 32;
-    cityWeather.innerHTML = city['name'] + "  " + date + "<br> Temperature F: " + currTemp + '<br> Humidity: ' + city['main']['humidity']
-    + '%<br> Wind Speed: ' + city['wind']['speed'] + 'mph<br> UV Index: '; 
+    var btnEl = document.createElement('button');
+    btnEl.setAttribute('type', 'button');
+    btnEl.setAttribute('style', 'width: 100%');
+    btnEl.textContent = locCity.value;
+    searchHis.appendChild(btnEl);
+    storeData();
 
-    //entering data in local storage 
-    myObj.cityArray.push(userCity.value);
-  
-    let myObj_str = JSON.stringify(myObj);
-    localStorage.setItem('userCities', myObj_str);
-   
 }
 
-//display five day forecast 
 
-var displayFiveDay = function(city)
+var storeData = function()
 {
-    console.log('working');
+    var userEntry = JSON.stringify(cityArray);
+    localStorage.setItem('cities', userEntry);
+}
+
+//displaying weather api
+function displayWeather(weather){
+    var weatherDis = document.getElementById('weatherDis');
+    var tempF = 'Temp: ' + (Math.round(weather.main.temp * .1)*(9/5)+ 32) + '˚F<br>';
+    var locDate = locCity.value+ ' ' + moment().format('MMMM Do YYYY') +'<br>';
+    var lat = weather.coord.lon;
+    var lon = weather.coord.lat;
+    var wind = 'Wind Spd:' + weather.wind.speed + 'mph<br>';
+    var humidity = 'Humidity: ' + weather.main.humidity + '%<br>';
+    weatherDis.innerHTML = locCity.value + ' ' + locDate + tempF + wind + humidity;
+    
+    fiveDayForecast(lat,lon);
+}
+
+var fiveDay = function(info)
+{
+ var displayFiveDay = function()
+ {
+    var displayFive = document.getElementById('fiveDay');
+    displayFive.innerHTML ='<h5> Five Day Forecast </h5>';
+   for(var i=0; i<5; i++)
+   {
+       var create = document.createElement('span');
+       var convUnix = info.daily[i].dt;
+       var dates = moment.unix(convUnix).format('MMMM Do') + '<br>';
+       var temp = info.daily[i].temp.day;
+       var tempF = 'Temp: ' + Math.round((temp *.1) * (9/5) + 32) + '˚F<br>';
+       var wind = 'WindSpd: ' + info.daily[i].wind_speed + ' mph<br>';
+       var humidity= 'Humidity: '+ info.daily[i].humidity +'%<br>';
+       create.setAttribute('class', 'fiveDay cards m-2');
+       create.setAttribute('style', 'width: 12rem')
+       create.innerHTML = dates + tempF + wind+ humidity;
+       displayFive.appendChild(create);
+       
+   }  
+ }
+ //var convUnix = moment.unix(unixTime).format('MMMM Do YYYY');
+
+ displayFiveDay();
+
 }
 

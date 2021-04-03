@@ -1,38 +1,15 @@
-
 header
 {
-  background-color: #60A5FA;
-  font-size: 3em;
-  color: white;
+  background-color: lightblue;
 }
 
-.searchSec
+#weatherDis
 {
-  width: 30%;
-  background-color: #D1D5DB;
+  background-color: lightblue;
 }
 
-.weatherSec
+.fiveDay
 {
-  width: 70%;
-  background-color: #60A5FA;
-}
-.searchBar
-{
-  width: 100%;
-}
-
-.history
-{
-  background-color: pink;
-}
-
-h4 {
-  background-color: black;
-  color: white;
-}
-
-.hisDisplay
-{
-  background-color:#60A5FA;
+  background-color: darkblue;
+  color:white;
 }
