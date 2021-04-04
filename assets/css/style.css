@@ -11,7 +11,12 @@ header
 
 #weatherDis
 {
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(d217, 217, 217);
+}
+
+.weatherDisplay
+{
+  background-color: rgb(217, 217, 217);
 }
 
 .fiveDay
