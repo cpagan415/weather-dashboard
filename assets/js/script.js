@@ -5,7 +5,7 @@ var getWeather = function(userCity) {
     var apiUrl = ('https://api.openweathermap.org/data/2.5/weather?q=' + userCity + '&appid=b7f5bbcf25f5227f04a67e383665ed91');
     fetch(apiUrl).then(function(response){
         response.json().then(function(data){
-            displayWeather(data);
+            displayWeather(data,userCity);
             console.log(data);})})}
 
 var fiveDayForecast = function(lat,lon)
@@ -37,9 +37,6 @@ window.onload = () => {
 
 }
 
-function displayAgain(objCity){
-    getWeather(objCity.textContent);
-}
    
 
 
@@ -50,7 +47,7 @@ var formSubmitHandler = function()
     cityArray.push(locCity);
     histSearchBtn(locCity);
     getWeather(locCity);
-    clearForm(locCity);
+    clearForm();
 }
 var clearForm = function()
 {
@@ -63,6 +60,7 @@ var histSearchBtn = function()
     var btnEl = document.createElement('button');
     btnEl.setAttribute('type', 'button');
     btnEl.setAttribute('style', 'width: 100%');
+    btnEl.setAttribute('onclick', 'displayAgain(this)');
     btnEl.textContent = locCity.value;
     searchHis.appendChild(btnEl);
     storeData();
@@ -77,15 +75,18 @@ var storeData = function()
 }
 
 //displaying weather api
-function displayWeather(weather){
+function displayWeather(weather,locCity){
+
     var weatherDis = document.getElementById('weatherDis');
+   //Api Info
     var tempF = 'Temp: ' + (Math.round(weather.main.temp - 273)*(9/5)+ 32) + '˚F<br>';
-    var locDate = locCity.value+ ' ' + moment().format('MMMM Do YYYY') +'<br>';
+    var locDate = moment().format('MMMM Do YYYY') +'<br>';
+    locCity = locCity.slice(0,1).toUpperCase() + locCity.substring(1, locCity.length);
     var lon = weather.coord.lon;
     var lat = weather.coord.lat;
     var wind = 'Wind Spd:' + weather.wind.speed + 'mph<br>';
     var humidity = 'Humidity: ' + weather.main.humidity + '%<br>';
-    weatherDis.innerHTML = locCity.value + ' ' + locDate + tempF + wind + humidity;
+    weatherDis.innerHTML = locCity+ ' ' + locDate + tempF + wind + humidity;
     
     fiveDayForecast(lat,lon);
 }
@@ -95,7 +96,7 @@ var fiveDay = function(info)
  var displayFiveDay = function()
  {
     var displayFive = document.getElementById('fiveDay');
-    displayFive.innerHTML ='<h5> Five Day Forecast </h5>';
+    displayFive.innerHTML ='<h5 class="mt-5"> Five Day Forecast </h5>';
    for(var i=0; i<5; i++)
    {
        var create = document.createElement('span');
@@ -105,7 +106,7 @@ var fiveDay = function(info)
        var tempF = 'Temp: ' + Math.round((temp -273) * (9/5) + 32) + '˚F<br>';
        var wind = 'WindSpd: ' + info.daily[i].wind_speed + ' mph<br>';
        var humidity= 'Humidity: '+ info.daily[i].humidity +'%<br>';
-       create.setAttribute('class', 'fiveDay cards m-2');
+       create.setAttribute('class', 'fiveDay border-dark cards m-2');
        create.setAttribute('style', 'width: 12rem')
        create.innerHTML = dates + tempF + wind+ humidity;
        displayFive.appendChild(create);
@@ -118,3 +119,6 @@ var fiveDay = function(info)
 
 }
 
+function displayAgain(objCity){
+    getWeather(objCity.textContent);
+}

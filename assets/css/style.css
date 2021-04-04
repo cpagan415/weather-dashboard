@@ -1,15 +1,21 @@
+body
+{
+  font-family: 'Comfortaa', cursive;
+}
+
 header
 {
-  background-color: lightblue;
+  background-color: rgb(40, 75, 99);
+  color: white;
 }
 
 #weatherDis
 {
-  background-color: lightblue;
+  background-color: rgb(255, 255, 255);
 }
 
 .fiveDay
 {
-  background-color: darkblue;
+  background-color: rgb(60, 110, 113);
   color:white;
 }
