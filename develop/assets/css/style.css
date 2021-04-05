@@ -1,0 +1,27 @@
+body
+{
+  font-family: 'Comfortaa', cursive;
+}
+
+header
+{
+  background-color: rgb(40, 75, 99);
+  color: white;
+}
+
+#weatherDis
+{
+  background-color: rgb(d217, 217, 217);
+}
+
+.weatherDisplay
+{
+  background-color: rgb(217, 217, 217);
+}
+
+.fiveDay
+{
+  background-color: rgb(60, 110, 113);
+  color:white;
+}
+
