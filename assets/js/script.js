@@ -1,5 +1,6 @@
 
-
+var searchHis = document.getElementById('searchHis');
+let cityArray= [];
 
 //created a function with the user input as a parameter when running fetch on the api
 var getWeather = function(userCity) {
@@ -9,8 +10,7 @@ var getWeather = function(userCity) {
     })
     .then(function(weatherResponse){
         displayWeather(weatherResponse);
-        console.log(weatherResponse);
-        //for the other api I took lat and lon from the current 
+        //for the other api I took latitude and longitude from the first api to use as parameters 
         var lat = weatherResponse.coord.lat;
         var lon = weatherResponse.coord.lon;
 
@@ -27,19 +27,25 @@ var getWeather = function(userCity) {
     })
 }
 
+
+    //adding a clearform after user submits 
     function clearForm()
     {
         var form = document.getElementById('userForm');
         form.reset();
     }
-   
+
+   //submit handler here 
    function formSubmitHandler(city){
        var weatherDisplay = document.getElementsByClassName('weatherDisplay');
        var titleIcon = document.getElementById('titleIcon');
+       var locCity = document.getElementById('locCity').value;
+       cityArray.push(locCity);
        weatherDisplay.textContent = ' ';
        titleIcon.textContent = ' ';
        var city = document.getElementById('locCity').value;
        getWeather(city);
+       histSearchBtn(city);
        clearForm();
    }
 
@@ -61,12 +67,37 @@ var getWeather = function(userCity) {
    {
        //this will displaying the searched temp, wind, humidity, and UV Index
        var weatherDis = document.getElementById('weatherDis');
+       var uvDisplay = document.createElement('span');
        //converting from kelvin to F 
        var tempF = 'Temp: ' + (Math.round(fiveResponse.current.temp - 273)*(9/5)+ 32) + '˚F<br>';
        var wind = 'Wind Spd:' + fiveResponse.current.wind_speed + 'mph<br>';
        var humidity = 'Humidity: ' + fiveResponse.current.humidity + '%<br>';
-       var uvIndex = 'UV Index: ' + fiveResponse.current.uvi;
+       var uvIndex = 'UV Index: ';
+       var uvWarning = fiveResponse.current.uvi;
        weatherDis.innerHTML = tempF + wind + humidity + uvIndex;
+       uvDisplay.innerHTML = uvWarning;
+       weatherDis.append(uvDisplay);
+
+       //changes background color of uv index 
+       if(uvWarning <= 3 ){
+            uvDisplay.setAttribute('style','background-color:green; color:white;');
+       }
+       else if(uvWarning > 3 && uvWarning <=5)
+       {
+        uvDisplay.setAttribute('style','background-color:yellow; color:black;');
+       }
+       else if(uvWarning > 5 && uvWarning <=8)
+       {
+        uvDisplay.setAttribute('style','background-color:orange; color:black;');
+       }
+       else if(uvWarning > 8 && uvWarning <11)
+       {
+        uvDisplay.setAttribute('style','background-color:red; color:white;');
+       }
+       else if(uvWarning >= 11)
+       {
+        uvDisplay.setAttribute('style','background-color:violet; color:white;');
+       }
    }
 
    function fiveDay(fiveResponse)
@@ -89,8 +120,8 @@ var getWeather = function(userCity) {
        var imgIcon = document.createElement('img');
         imgIcon.setAttribute('src', 'http://openweathermap.org/img/wn/' + fiveResponse.daily[i].weather[0].icon + '.png')
         imgIcon.setAttribute('height', '50px');
-        //imgIcon.setAttribute('width', '5px');
-            //icon end 
+        //icon end 
+
        spanEl.setAttribute('class', 'fiveDay border-dark cards m-2');
        spanEl.setAttribute('style', 'width: 12rem');
        spanToo.innerHTML = dates; 
@@ -98,9 +129,48 @@ var getWeather = function(userCity) {
        displayFive.append(spanEl);
        spanEl.prepend(spanToo);
        spanToo.after(imgIcon);
-       
-      
-      
-       
+        
  }
+}
+//storing data to local storage
+var storeData = function()
+{
+    var userEntry = JSON.stringify(cityArray);
+    localStorage.setItem('cities', userEntry);
+}
+
+//creating buttons when user submits form
+var histSearchBtn = function()
+{
+    var btnEl = document.createElement('button');
+    btnEl.setAttribute('type', 'button');
+    btnEl.setAttribute('style', 'width: 100%');
+    btnEl.setAttribute('onclick', 'displayAgain(this)');
+    btnEl.textContent = locCity.value;
+    searchHis.appendChild(btnEl);
+    storeData();
+
+}
+
+//this is for the onclick function to display weather data again
+function displayAgain(objCity){
+    var titleIcon = document.getElementById('titleIcon');
+    titleIcon.textContent = ' ';
+    getWeather(objCity.textContent);
+
+}
+
+//buttons from user search history will appear every time page is refreshed 
+
+window.onload = () => {
+    let cities = JSON.parse(localStorage.getItem('cities'));
+    for(i=0; i<cities.length;i++){
+        var newEl = document.createElement('button');
+        newEl.setAttribute('style', 'width: 100%')
+        newEl.setAttribute('id', 'btn');
+        newEl.setAttribute('onclick', 'displayAgain(this)');
+        newEl.textContent = cities[i];
+        searchHis.appendChild(newEl);
+    }
+
 }
