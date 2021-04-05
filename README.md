@@ -2,7 +2,7 @@
 This is an application to view the weather of different cities with the open weather map api.
 
 
-![](develop/assets/images/weatherDimg.png)
+![](assets/images/weatherDimg.png)
 
 
 github repo: https://github.com/cpagan415/weather-dashboard
