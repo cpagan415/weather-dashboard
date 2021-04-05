@@ -69,7 +69,7 @@ var getWeather = function(userCity) {
        var weatherDis = document.getElementById('weatherDis');
        var uvDisplay = document.createElement('span');
        //converting from kelvin to F 
-       var tempF = 'Temp: ' + (Math.round(fiveResponse.current.temp - 273)*(9/5)+ 32) + '˚F<br>';
+       var tempF = 'Temp: ' + (Math.round(fiveResponse.current.temp - 273)*(9/5)+ 32).toFixed(2) + '˚F<br>';
        var wind = 'Wind Spd:' + fiveResponse.current.wind_speed + 'mph<br>';
        var humidity = 'Humidity: ' + fiveResponse.current.humidity + '%<br>';
        var uvIndex = 'UV Index: ';
@@ -112,7 +112,7 @@ var getWeather = function(userCity) {
        var spanToo = document.createElement('span');
        var dates = moment.unix(fiveResponse.daily[i].dt).format('MMMM Do');
        var temp = fiveResponse.daily[i].temp.day;
-       var tempF = 'Temp: ' + Math.round((temp -273) * (9/5) + 32) + '˚F<br>';
+       var tempF = 'Temp: ' + Math.round((temp -273) * (9/5) + 32).toFixed(2) + '˚F<br>';
        var wind = 'WindSpd: ' + fiveResponse.daily[i].wind_speed + ' mph<br>';
        var humidity= 'Humidity: '+ fiveResponse.daily[i].humidity +'%<br>';
 
@@ -141,11 +141,12 @@ var storeData = function()
 
 //creating buttons when user submits form
 var histSearchBtn = function()
-{
+{   
     var btnEl = document.createElement('button');
     btnEl.setAttribute('type', 'button');
     btnEl.setAttribute('style', 'width: 100%');
     btnEl.setAttribute('onclick', 'displayAgain(this)');
+    btnEl.setAttribute('class', 'mt-3');
     btnEl.textContent = locCity.value;
     searchHis.appendChild(btnEl);
     storeData();
@@ -169,6 +170,7 @@ window.onload = () => {
         newEl.setAttribute('style', 'width: 100%')
         newEl.setAttribute('id', 'btn');
         newEl.setAttribute('onclick', 'displayAgain(this)');
+        newEl.setAttribute('class', 'mt-3');
         newEl.textContent = cities[i];
         searchHis.appendChild(newEl);
     }
